@@ -1,0 +1,51 @@
+﻿@model FileRecord.ViewModel.ProductUpdateVm
+
+<div class="main-container">
+    <div class="row">
+        <div class="col-8">
+            <form method="post" enctype="multipart/form-data">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Add Product</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label asp-for="Name"></label>
+                                    <input type="text" asp-for="Name" class="form-control" name="Name" />
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label asp-for="Document"></label>
+                                    <input type="file" class="form-control" asp-for="Document" name="Document" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-block">
+                                        <i class="fas fa-check"></i>
+                                        Update
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        @if (!string.IsNullOrWhiteSpace(Model.Doc))
+        {
+            @: <img id="tempUser" class="selected-image" src="/Application/Image?path=@Model.Doc" alt="Document" />
+        }
+    </div>
+
+</div>

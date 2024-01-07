@@ -1,0 +1,73 @@
+﻿@model FileRecord.ViewModel.ProductSearchVm
+<div  class="main-container">
+    <div class="row">
+        <div class="col-12">
+            <form  method="post">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label asp-for="Name"></label>
+                                    <input  type="text" asp-for="Name" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <label>&nbsp;</label>
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-block">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    @{
+        if (Model.products != null)
+        {
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>S.n</th>
+                                        <th>Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int i = 1;
+                                        foreach (var item in Model.products)
+                                        {
+                                            <tr>
+                                                <td>@(i++)</td>
+                                                <td>@item.Name</td>
+                                                <td>
+                                                    <a class="btn btn-success" href="@Url.Content($"{Model.DocumentUrl}{item.DocumentPath}")" target="_blank">
+                                                        View Document
+                                                    </a>
+                                                    <a class="btn btn-primary" target="_blank" asp-action="Update" asp-route-Id="@item.Id">
+                                                    Update
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+  
+</div>
