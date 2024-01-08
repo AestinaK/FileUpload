@@ -5,6 +5,7 @@ using FileRecord.Models;
 using FileRecord.ValueObject;
 using FileRecord.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.Entity;
 
 namespace FileRecord.Controllers
 {
@@ -31,7 +32,7 @@ namespace FileRecord.Controllers
             {
                 return View(vm);
             }
-            vm.products  = _context.products.Where(x => x.Name.ToLower() == vm.Name.ToLower()).ToList();
+            vm.products = _context.products.Where(x => x.Name.ToLower() == vm.Name.ToLower()).ToList();
             return View(vm);
         }
 
@@ -46,7 +47,7 @@ namespace FileRecord.Controllers
         public async Task<IActionResult> Add(ProductVm vm)
         {
             var file = new FileRecordVo(Documents.ProductDirectory, vm.Document);
-            string fileName = vm.Document!=null ? await FileHelper.SavePhysicalFileAsync(file) : string.Empty;
+            string fileName = vm.Document != null ? await FileHelper.SavePhysicalFileAsync(file) : string.Empty;
 
             var product = new Product()
             {
@@ -64,9 +65,30 @@ namespace FileRecord.Controllers
             var data = _context.products.Find(Id);
             var vm = new ProductUpdateVm();
             vm.Name = data.Name;
-            vm.Doc =  FileHelper.GetFile(Documents.ProductDirectory, data.DocumentPath);
+            vm.Doc = FileHelper.GetFile(Documents.ProductDirectory, data.DocumentPath);
             return View(vm);
-            
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(ProductUpdateVm vm)
+        {
+           
+                var data =  _context.products.AsNoTracking().FirstOrDefault(x=>x.Id == vm.Id);
+                var existingFile = FileHelper.GetFile(Documents.ProductDirectory, data.DocumentPath);
+                var file = new FileRecordVo(Documents.ProductDirectory, vm.Document);
+                string filename = vm.Document != null ? await FileHelper.UpdateFileAsync(file, existingFile) : string.Empty;
+                var product = new Product
+                {
+                    Id = vm.Id,
+                    Name = vm.Name,
+                    DocumentPath = filename
+
+                };
+                _context.products.Update(product);
+                _context.SaveChanges();
+         
+            return RedirectToAction(nameof(Update));
         }
     }
 }

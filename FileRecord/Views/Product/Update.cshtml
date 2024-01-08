@@ -42,10 +42,21 @@
         </div>
     </div>
     <div class="row">
-        @if (!string.IsNullOrWhiteSpace(Model.Doc))
-        {
-            @: <img id="tempUser" class="selected-image" src="/Application/Image?path=@Model.Doc" alt="Document" />
-        }
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Your Document</strong>
+                </div>
+                <div class="card-body">
+                    @if (!string.IsNullOrWhiteSpace(Model.Doc))
+                    {
+                        @: <img id="tempUser" class="selected-image" src="/Application/Image?path=@Model.Doc" alt="Doc" />
+                    }
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
 </div>

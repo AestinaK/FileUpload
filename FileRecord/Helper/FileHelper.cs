@@ -20,8 +20,8 @@ namespace FileRecord.Helper
 
         public static string GetFile(string parentDirectoryIdentity, string fileName)
         {
-            var path = Path.Combine(Root + parentDirectoryIdentity, fileName);
-            return path;
+            var filePath = Path.Combine(Root + parentDirectoryIdentity, fileName);
+            return filePath;
         }
 
         public static void RemoveFile(string parentDirectoryIdentity, string fileName) {
